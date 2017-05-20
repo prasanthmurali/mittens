@@ -1,0 +1,37 @@
+<div class="row feed"> 
+	<div class="col-md-4">
+		<h4> Login </h4>
+		<br>
+		<input type="text" size="30" placeholder="Username">
+		<br><br>
+		<input type="Password" size="30" placeholder="Password">
+		<br><br>
+		<a href="#!/signup"> Not a member? Sign Up ! </a>
+	</div>
+	<div class="col-md-8">
+		<div class = "new-meow">
+			<input type="text" class="form-control"  ng-model="newMeow" placeholder="Enter New Meow!">
+			<br>
+			<button class="btn" type="button" ng-click="submitNewMeow()">Submit</button>
+		</div>
+		<h3 ng-repeat="meow in meows">
+			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+			{{meow.text}}
+			<a href ng-click="removeMeow(meow)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+		<!--
+		</h3>
+		<h3>
+			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+			Whistle podu @!
+		</h3>	
+		<h3>
+			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+			IPL 2018, we are back !
+		</h3>
+		<h3>
+			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+			Chepauk, here we come xD
+						-->
+		</h3>
+	</div>
+</div>
