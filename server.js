@@ -4,9 +4,11 @@ var app = express();
 var ObjectId = require('mongodb').ObjectId;
 var bodyParser = require('body-parser');
 var bcrypt = require('bcryptjs');
-const port = 3000;
-
+var jwt = require('jwt-simple');
 var db = null;
+
+const JWT_SECRET = 'catsmeow';
+const PORT = 3000;
 
 MongoClient.connect("mongodb://localhost:27017/mittens",function(err,dbconn){
 	if(!err){
@@ -107,7 +109,8 @@ app.put('/users/signin',function(req,res,next){
 		usersCollection.findOne({username: req.body.username},function(err, user){
 			bcrypt.compare(req.body.password, user.password, function(err,result){
 				if (result){
-					return res.send();
+					var token = jwt.encode(user, JWT_SECRET);
+					return res.json({token: token});
 				} else {
 						return res.status(400).send();
 				}			
@@ -116,7 +119,7 @@ app.put('/users/signin',function(req,res,next){
 	});
 });
 
-app.listen(port,function(){
+app.listen(PORT,function(){
 	console.log("App listening on port 3000");
 });
 

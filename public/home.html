@@ -1,14 +1,19 @@
 <div class="row feed"> 
 	<div class="col-md-4">
-		<h4> Login </h4>
-		<br>
-		<input type="text" size="30" placeholder="Username" ng-model="username">
-		<br><br>
-		<input type="Password" size="30" placeholder="Password" ng-model="password">
-		<br><br>
-		<button type="button" ng-click="signin()">Sign in</button>
-		<br><br>
-		<a href="#!/signup"> Not a member? Sign Up ! </a>
+		<div ng-hide="currentUser">
+			<h4> Login </h4>
+			<br>
+			<input type="text" size="30" placeholder="Username" ng-model="username">
+			<br><br>
+			<input type="Password" size="30" placeholder="Password" ng-model="password">
+			<br><br>
+			<button type="button" ng-click="signin()">Sign in</button>
+			<br><br>
+			<a href="#!/signup"> Not a member? Sign Up ! </a>
+		</div>
+		<div ng-show="currentUser">
+			Hello, {{currentUser}}. Welcome to your Mittens Page !
+		</div>
 	</div>
 	<div class="col-md-8">
 		<div class = "new-meow">
