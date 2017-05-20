@@ -47,20 +47,38 @@ app.get('/meows',function(req,res,next){
 
 app.post('/meows',function(req,res,next){
 
+	var token = req.headers.authorization;
+	var user = jwt.decode(token, JWT_SECRET);
+ // console.log(token);
 	db.collection('meows',function(err,meowsCollection){
 
-		var newMeow = {text: req.body.newMeow}		
+		var newMeow = {
+			text: req.body.newMeow,
+			user: user._id,
+			username: user.username
+		};		
 		meowsCollection.insert(newMeow,{w:1},function(err){
 		return 	res.send();
 		});
 	});
 });	
 
+// below method is to delete meows
 app.put('/meows/remove',function(req,res,next){
+
+	var token = req.headers.authorization;
+	var user = jwt.decode(token, JWT_SECRET);
+
 	db.collection('meows',function(err,meowsCollection){
 		var meowId = req.body.meow._id;
-		var newMeow = {text: req.body.newMeow}		
-		meowsCollection.remove({_id: ObjectId(meowId)}, {w:1},function(err){
+
+	// var newMeow = {text: req.body.newMeow} - not required anymore
+
+	// The first parameter to remove can also be as follows:
+	// {_id: ObjectId(meowId), username: user.username} to compare
+	// the users with their names stored in the db rather than their ids
+		meowsCollection.remove(
+			{_id: ObjectId(meowId), user: user._id}, {w:1},function(err){
 		return 	res.send();
 		});
 	});

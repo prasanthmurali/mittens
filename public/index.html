@@ -50,8 +50,13 @@
 
 			$scope.submitNewMeow = function(){
 				/*
-				console.log($scope.newMeow);*/
-				$http.post('/meows',{newMeow: $scope.newMeow}).then(function(){
+				console.log($scope.newMeow);
+				*/
+				$http.post('/meows',
+					{newMeow: $scope.newMeow},
+					{headers: {
+						'authorization': $rootScope.token
+					}}).then(function(){
 				//alert('success');
 				getMeows(); 
 				$scope.newMeow = '';
@@ -59,14 +64,18 @@
 			};
 
 			$scope.removeMeow = function(meow){
-			$http.put('/meows/remove',{meow:meow}).then(function(){
+			$http.put('/meows/remove',
+				{meow:meow},
+				{headers: {
+						'authorization': $rootScope.token
+					}}).then(function(){
 							getMeows(); 
 							});
 			};
 
 			$scope.signin = function(){
 				$http.put('/users/signin',{username: $scope.username,password:$scope.password}).then(function(res){
-						console.log(res.data.token);
+					 //	console.log(res.data.token);
 						$cookies.put('token',res.data.token);
 						$cookies.put('currentUser',$scope.username);
 						$rootScope.token = res.data.token;
@@ -74,7 +83,18 @@
 						alert('Succesfully signed in');},function(err){
 							alert('bad login credentials');
 						});
-			} // should it end here? update: may be not !
+			}; // should it end here? update: may be not !
+
+
+			$scope.logout = function(){
+				$cookies.remove('token');
+				$cookies.remove('currentUser');
+
+				// for the below step, i can also do:
+				// delete $rootScope.token
+				$rootScope.token = null;
+				$rootScope.currentUser = null;
+			} 
 			
 			function getMeows(){
 

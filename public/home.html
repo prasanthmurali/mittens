@@ -12,11 +12,13 @@
 			<a href="#!/signup"> Not a member? Sign Up ! </a>
 		</div>
 		<div ng-show="currentUser">
-			Hello, {{currentUser}}. Welcome to your Mittens Page !
+			Hello, {{currentUser}}. Welcome to your Mittens Page ! 
+			<br> <br>
+			<a href ng-click=logout()>Logout</a>
 		</div>
 	</div>
 	<div class="col-md-8">
-		<div class = "new-meow">
+		<div class = "new-meow" ng-show="currentUser">
 			<input type="text" class="form-control"  ng-model="newMeow" placeholder="Enter New Meow!">
 			<br>
 			<button class="btn" type="button" ng-click="submitNewMeow()">Submit</button>
@@ -25,6 +27,8 @@
 			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 			{{meow.text}}
 			<a href ng-click="removeMeow(meow)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+			<br>
+			<small>{{meow.username}}</small>
 		<!--
 		</h3>
 		<h3>

@@ -1,6 +1,9 @@
 # mittens
 A simple MEAN application following the tutorial on https://www.youtube.com/user/DaveDevTV
 
-The app is hosted locally, with the database tied to my local machine. The repo
-contains the code for handling the db on the server side as well as the views 
-on the client side. 
+The app can be downloaded, and server started by typing:
+nodemon server.js
+
+At this point, the app will listen at port 3000 on the local machine.
+
+* More functionalities to come soon !!
