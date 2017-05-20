@@ -3,6 +3,7 @@ var MongoClient = require('mongodb').MongoClient;
 var app = express();
 var ObjectId = require('mongodb').ObjectId;
 var bodyParser = require('body-parser');
+var bcrypt = require('bcryptjs');
 const port = 3000;
 
 var db = null;
@@ -66,18 +67,54 @@ app.put('/meows/remove',function(req,res,next){
 
 app.post('/users',function(req,res,next){
 
-    console.log(req.body);
+    // console.log(req.body);
 	db.collection('users',function(err,usersCollection){
+
+		bcrypt.genSalt(10, function(err, salt) {
+			// console.log(salt);
+		    bcrypt.hash(req.body.password, salt, function(err, hash) {
+
+				// console.log(hash);		    	
+		        var newUser = {
+				username: req.body.username,
+				password: hash
+		};		
+		
+		/* 
+			replace req.body with newUser to encrypt the password 		
 		usersCollection.insert(req.body, {w:1},function(err){
+		*/			
+
+		usersCollection.insert(newUser, {w:1},function(err){
 
 		return 	res.send();
 		});
+		    });
+		});
+		
 	});
 });	
 
 	// console.log(req.body);
 	// meows.push(req.body.newMeow);
 	// res.send();	
+
+
+app.put('/users/signin',function(req,res,next){
+
+	db.collection('users',function(err,usersCollection){
+
+		usersCollection.findOne({username: req.body.username},function(err, user){
+			bcrypt.compare(req.body.password, user.password, function(err,result){
+				if (result){
+					return res.send();
+				} else {
+						return res.status(400).send();
+				}			
+			});
+		});			
+	});
+});
 
 app.listen(port,function(){
 	console.log("App listening on port 3000");

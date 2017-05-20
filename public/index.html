@@ -47,6 +47,13 @@
 							getMeows(); 
 							});
 			};
+
+			$scope.signin = function(){
+				$http.put('/users/signin',{username: $scope.username,password:$scope.password}).then(function(){
+						alert('Succesfully signed in');},function(err){
+							alert('bad login credentials');
+						});
+			} // should it end here? update: may be not !
 			
 			function getMeows(){
 
@@ -57,6 +64,8 @@
 		}
 		getMeows();
 		});
+
+
 		/*
 		var meows = [
 			'CSK is back !',
@@ -83,7 +92,7 @@
 	</script>
 </head>
 <body>
-	<h1 class="page-title">Mittens</h1>
+	<h1 class="page-title"> <a href="#/">Mittens</a></h1>
 	<div ng-view></div>
 </body>
 </html>
